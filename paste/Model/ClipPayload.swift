@@ -27,6 +27,21 @@ struct ClipPayload {
 
         let source = NSWorkspace.shared.frontmostApplication
 
+        // Some apps (including QQ) publish both an image flavor and a private
+        // file URL. Prefer the self-contained image data so previews and pastes
+        // do not depend on access to the source app's sandbox container.
+        if let png = pngData(from: pasteboard) {
+            return ClipPayload(
+                kind: .image,
+                text: nil,
+                rtfData: nil,
+                imageData: png,
+                fileURLs: [],
+                sourceAppName: source?.localizedName,
+                sourceAppBundleID: source?.bundleIdentifier
+            )
+        }
+
         if let urls = pasteboard.readObjects(
             forClasses: [NSURL.self],
             options: [.urlReadingFileURLsOnly: true]
@@ -37,18 +52,6 @@ struct ClipPayload {
                 rtfData: nil,
                 imageData: nil,
                 fileURLs: urls,
-                sourceAppName: source?.localizedName,
-                sourceAppBundleID: source?.bundleIdentifier
-            )
-        }
-
-        if let png = pngData(from: pasteboard) {
-            return ClipPayload(
-                kind: .image,
-                text: nil,
-                rtfData: nil,
-                imageData: png,
-                fileURLs: [],
                 sourceAppName: source?.localizedName,
                 sourceAppBundleID: source?.bundleIdentifier
             )
