@@ -10,10 +10,12 @@ struct ItemCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             preview
-            title
-                .font(.body)
-                .lineLimit(2)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            if item.kind != .text {
+                title
+                    .font(.body)
+                    .lineLimit(2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
             Spacer(minLength: 0)
             metadata
         }
@@ -49,10 +51,14 @@ struct ItemCard: View {
         Group {
             switch item.kind {
             case .text:
-                placeholderBackground {
-                    Image(systemName: "text.alignleft")
-                        .font(.system(size: 36))
-                        .foregroundStyle(.secondary)
+                ZStack(alignment: .topLeading) {
+                    Rectangle().fill(Color.primary.opacity(0.06))
+                    Text(item.text ?? "")
+                        .font(.system(size: 12.5))
+                        .lineSpacing(3)
+                        .lineLimit(9)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                        .padding(10)
                 }
 
             case .image:
@@ -140,6 +146,9 @@ struct ItemCard: View {
             Spacer(minLength: 0)
             if item.kind == .files, item.fileURLs.count > 1 {
                 Text(String(localized: "\(item.fileURLs.count) files"))
+            }
+            if item.kind == .text {
+                Text(String(localized: "\(item.text?.count ?? 0) characters"))
             }
         }
         .font(.caption)

@@ -13,7 +13,7 @@ final class ClipboardStore {
         let prefICloud = UserDefaults.standard.bool(forKey: PreferenceKeys.useICloudStorage)
         let containerDocuments = StoreLocation.iCloudContainerDocumentsURL
         let location = (prefICloud && containerDocuments != nil) ? StoreLocation.icloud : .local
-        StoreLocation.migrateIfNeeded(to: location)
+        try StoreLocation.migrateIfNeeded(to: location)
         let directory = location.directoryURL
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         let storeURL = directory.appending(path: StoreLocation.storeFileName)

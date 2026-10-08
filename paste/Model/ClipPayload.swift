@@ -96,6 +96,14 @@ struct ClipPayload {
     }
 
     private static func sha256(_ data: Data) -> String {
-        SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+        let hex = Array("0123456789abcdef")
+        let bytes = Array(SHA256.hash(data: data))
+        var characters = [Character]()
+        characters.reserveCapacity(bytes.count * 2)
+        for byte in bytes {
+            characters.append(hex[Int(byte >> 4)])
+            characters.append(hex[Int(byte & 0x0f)])
+        }
+        return String(characters)
     }
 }

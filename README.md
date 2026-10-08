@@ -48,7 +48,7 @@ open build/Build/Products/Release/pbpaste.app
 mkdir -p dist/dmg_root
 cp -R build/Build/Products/Release/pbpaste.app dist/dmg_root/
 ln -s /Applications dist/dmg_root/Applications
-hdiutil create -volname pbpaste -srcfolder dist/dmg_root -ov -format UDZO dist/pbpaste.dmg
+hdiutil create -volname "pbpaste 2.0" -srcfolder dist/dmg_root -ov -format UDZO dist/pbpaste-2.0.dmg
 ```
 
 ## 使用

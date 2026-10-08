@@ -81,6 +81,16 @@
         }
       }
     },
+    "%lld characters": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 个字符"
+          }
+        }
+      }
+    },
     "Changing storage location takes effect after the app restarts.": {
       "localizations": {
         "zh-Hans": {
